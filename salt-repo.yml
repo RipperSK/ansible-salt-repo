@@ -1,0 +1,22 @@
+---
+- name: add salt repo
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: push salt repo .list file
+      copy:
+        remote_src: no
+        src: salt-repo.list
+        dest: /etc/apt/sources.list.d/salt-repo.list
+        owner: root
+        group: root
+        mode: 0644
+    - name: push salt gpg file
+      copy:
+        remote_src: no
+        src: salt-archive-keyring.gpg
+        dest: /usr/share/keyrings/salt-archive-keyring.gpg
+        owner: root
+        group: root
+        mode: 0644
