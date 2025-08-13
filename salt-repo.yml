@@ -1,21 +1,20 @@
 ---
 - name: add salt repo and gpg key
   hosts: all
-  become: yes
+  become: True
 
   tasks:
-    - name: push salt repo .list file
-      template:
-        src: salt-repo.list.j2
-        dest: /etc/apt/sources.list.d/salt-repo.list
+    - name: Copy salt APT repo .sources file
+      ansible.builtin.copy:
+        src: salt.sources
+        dest: /etc/apt/sources.list.d/salt.sources
         owner: root
         group: root
         mode: 0644
-    - name: push salt gpg file
-      copy:
-        remote_src: no
-        src: salt-archive-keyring.gpg
-        dest: /usr/share/keyrings/salt-archive-keyring.gpg
+    - name: Download salt archive-keyring pgp file
+      ansible.builtin.get_url:
+        url: https://packages.broadcom.com/artifactory/api/security/keypair/SaltProjectKey/public
+        dest: /etc/apt/keyrings/salt-archive-keyring.pgp
         owner: root
         group: root
         mode: 0644
