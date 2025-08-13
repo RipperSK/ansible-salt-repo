@@ -18,3 +18,10 @@
         owner: root
         group: root
         mode: 0644
+    - name: Create APT pin file for salt-3006.x LTS versions
+      ansible.builtin.copy:
+        content: |
+          Package: salt-*
+          Pin: version 3006.*
+          Pin-Priority: 1001
+        dest: /etc/apt/preferences.d/salt-pin-1001
